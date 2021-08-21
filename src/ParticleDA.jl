@@ -540,7 +540,16 @@ function run_particle_filter(init, filter_params::FilterParameters, model_params
 
             length_timer = MPI.bcast(length_timer, filter_params.master_rank, MPI.COMM_WORLD)
 
-            chr_timer = Vector{Char}(rpad(str_timer,length_timer))
+            # We want to create a `length_timer`-long `Vector{Char}` out of `str_timer`.  We
+            # can't use `rpad` to pad the string and then convert it to Vector{Char} because
+            # in Julia v1.7+ `rpad` is based on `textwidth` (number of code points), instead
+            # of `length` (number of `Char`s that constitute the string), which screws up
+            # all our arithmetic.  Here we create a vector of `length_timer` spaces and fill
+            # the beginning with the characters in `str_timer`.
+            chr_timer = fill(' ', (length_timer,))
+            for (idx, char) in enumerate(str_timer)
+                @inbounds chr_timer[idx] = char
+            end
 
             timer_chars = MPI.Gather(chr_timer, filter_params.master_rank, MPI.COMM_WORLD)
 
