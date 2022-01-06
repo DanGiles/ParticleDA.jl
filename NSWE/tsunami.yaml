@@ -1,0 +1,10 @@
+filter:
+  nprt: 2
+  n_time_step: 100
+model:
+  NSWE:
+    nobs: 4
+    obs_noise_std: 0.01
+    sigma: 1.0
+    lambda: 1.0
+    nu: 2.5
