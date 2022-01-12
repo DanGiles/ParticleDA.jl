@@ -1,10 +1,14 @@
 filter:
-  nprt: 2
-  n_time_step: 100
+  nprt: 200
+  n_time_step: 50
+  verbose: true
+  output_filename: "particle_nswe.h5"
+  weight_std: 1.0
 model:
-  NSWE:
-    nobs: 4
+  nswe:
+    nobs: 16
     obs_noise_std: 0.01
-    sigma: 1.0
-    lambda: 1.0
-    nu: 2.5
+    peak_height: 10.0
+    cutoff_depth: 50.0
+    sigma : [0.1, 0.1, 0.1]
+    sigma_initial_state : [0.1, 0.1, 0.1]

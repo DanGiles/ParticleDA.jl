@@ -1,6 +1,6 @@
 module NSWE
 
-# Nonlinear Long Wave (NSWE) tsunami in 2D Cartesian Coordinate
+# Nonlinear Shallow Wave Equations (NSWE) tsunami in 2D Cartesian Coordinate
 
 struct Matrices{T,M<:AbstractMatrix{T}}
     absorbing_boundary::M
@@ -144,6 +144,7 @@ end
 
 function setup(nx::Int,
                ny::Int,
+               dx::Float64,
                bathymetry_val::Real,
                absorber_thickness_fraction::Real,
                apara::Real,
@@ -163,15 +164,20 @@ function setup(nx::Int,
 
     # Bathymetry set-up. Users may need to modify it
     fill!(ocean_depth, bathymetry_val)
+    # Setting the bathymetry to a slope
+    # Use the Manhattan distance metric (d): d = abs(x-x_0) + abs(y-y_0)
     @inbounds for j in 1:ny, i in 1:nx
-        if ocean_depth[i,j] < 0
-            ocean_depth[i,j] = 0
-        elseif ocean_depth[i,j] < cutoff_depth
+        d = i+j
+        θ = 0.5*π/180.0
+        if d > 150
+            ocean_depth[i,j] = bathymetry_val - (d-150)*dx*tan(θ)
+        end
+        if ocean_depth[i,j] < cutoff_depth
             ocean_depth[i,j] = cutoff_depth
         end
     end
 
-    # average bathymetry for staabsorbing_boundaryered-grid computation
+    # average bathymetry for absorbing_boundary ered-grid computation
     for j in 1:ny
         for i in 2:nx
             x_averaged_depth[i, j] = (ocean_depth[i, j] + ocean_depth[i - 1, j]) / 2

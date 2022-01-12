@@ -467,6 +467,7 @@ function init(model_params_dict::Dict, nprt_per_rank::Int, my_rank::Integer, rng
     # Set up tsunami model
     model_matrices = NSWE.setup(model_params.nx,
                                  model_params.ny,
+                                 model_params.dx,
                                  model_params.bathymetry_setup,
                                  model_params.absorber_thickness_fraction,
                                  model_params.boundary_damping,
