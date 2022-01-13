@@ -7,7 +7,7 @@ using ParticleDA.Default_params
 using DelimitedFiles
 using FieldMetadata
 
-include("NSWE.jl")
+include("nswe.jl")
 using .NSWE
 
 """
@@ -459,7 +459,7 @@ ParticleDA.get_n_state_var(d::ModelData) = d.model_params.n_state_var
 
 function init(model_params_dict::Dict, nprt_per_rank::Int, my_rank::Integer, rng::Vector{<:Random.AbstractRNG})
 
-    model_params = ParticleDA.get_params(ModelParameters, get(model_params_dict, "llw2d", Dict()))
+    model_params = ParticleDA.get_params(ModelParameters, get(model_params_dict, "nswe", Dict()))
     states, observations, stations, field_buffer = init_arrays(model_params, nprt_per_rank)
 
     background_grf = init_gaussian_random_field_generator(model_params)

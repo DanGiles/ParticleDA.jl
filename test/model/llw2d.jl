@@ -156,10 +156,13 @@ function setup(nx::Int,
     # Use the Manhattan distance metric (d): d = abs(x-x_0) + abs(y-y_0)
     @inbounds for j in 1:ny, i in 1:nx
         d = i+j
-        θ = 0.5*π/180.0
-        if d > 150
-            ocean_depth[i,j] = bathymetry_val - (d-150)*dx*tan(θ)
+        # To Do: add the angle and cutoff value as parameters
+        θ = 2.5*(π/180.0)
+        if d > 45
+            ocean_depth[i,j] = bathymetry_val - (d-45)*dx*tan(θ)
         end
+    end
+    @inbounds for j in 1:ny, i in 1:nx
         if ocean_depth[i,j] < cutoff_depth
             ocean_depth[i,j] = cutoff_depth
         end
