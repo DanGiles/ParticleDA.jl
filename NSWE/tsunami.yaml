@@ -1,14 +1,15 @@
 filter:
-  nprt: 200
+  nprt: 100
   n_time_step: 50
   verbose: true
-  output_filename: "particle_nswe.h5"
+  enable_timers: true
+  output_filename: "shelf_nswe.h5"
   weight_std: 1.0
 model:
   nswe:
     nobs: 16
     obs_noise_std: 0.01
     peak_height: 10.0
-    cutoff_depth: 50.0
     sigma : [0.1, 0.1, 0.1]
-    sigma_initial_state : [0.1, 0.1, 0.1]
+    sigma_initial_state: [0.1, 0.1, 0.1]
+    cutoff_depth: 500.0
