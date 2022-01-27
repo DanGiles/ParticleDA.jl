@@ -83,6 +83,8 @@ Base.@kwdef struct ModelParameters{T<:AbstractFloat}
     bathymetry_setup::T = 3.0e3
     peak_height = 1.0
     peak_position = [floor(Int, nx / 4) * dx, floor(Int, ny / 4) * dy]
+    angle = 2.5
+    slope_index = 45
 
     lambda::Vector{T} = [1.0e4, 1.0e4, 1.0e4]
     nu::Vector{T} = [2.5, 2.5, 2.5]
@@ -469,6 +471,8 @@ function init(model_params_dict::Dict, nprt_per_rank::Int, my_rank::Integer, rng
                                  model_params.ny,
                                  model_params.dx,
                                  model_params.bathymetry_setup,
+                                 model_params.angle,
+                                 model_params.slope_index,
                                  model_params.absorber_thickness_fraction,
                                  model_params.boundary_damping,
                                  model_params.cutoff_depth)

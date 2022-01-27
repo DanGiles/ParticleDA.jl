@@ -29,3 +29,6 @@ model:
     peak_height: 30.0
     peak_position: [1e4,1e4]
     cutoff_depth: 500.0
+
+    angle: 2.5
+    slope_index: 45

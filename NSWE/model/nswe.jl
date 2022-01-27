@@ -146,6 +146,8 @@ function setup(nx::Int,
                ny::Int,
                dx::Float64,
                bathymetry_val::Real,
+               angle::Real,
+               slope_index:: Real,
                absorber_thickness_fraction::Real,
                apara::Real,
                cutoff_depth::Real,
@@ -169,12 +171,11 @@ function setup(nx::Int,
     @inbounds for j in 1:ny, i in 1:nx
         d = i+j
         # To Do: add the angle and cutoff value as parameters
-        θ = 2.5*(π/180.0)
-        if d > 45
-            ocean_depth[i,j] = bathymetry_val - (d-45)*dx*tan(θ)
+        θ = angle*(π/180.0)
+        if d > slope_index
+            ocean_depth[i,j] = bathymetry_val - (d-slope_index)*dx*tan(θ)
         end
-    end
-    @inbounds for j in 1:ny, i in 1:nx
+
         if ocean_depth[i,j] < cutoff_depth
             ocean_depth[i,j] = cutoff_depth
         end
